@@ -1,0 +1,21 @@
+{
+  "name": "reviewee",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/graphql": "^5.0.6",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.1.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.3"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0"
+  }
+}

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "devServer": "ts-node-dev src/server/index.ts",
+    "server": "ts-node src/server/index.ts",
     "watch": "webpack --watch"
   },
   "author": "",

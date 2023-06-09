@@ -5,38 +5,40 @@ import { store } from "./store";
 
 const webhooks = express();
 
-const ghWebhooks = new Webhooks({
-  secret: WEBHOOK_TOKEN,
-});
+if (WEBHOOK_TOKEN) {
+  const ghWebhooks = new Webhooks({
+    secret: WEBHOOK_TOKEN,
+  });
 
-ghWebhooks.on(
-  "pull_request_review.submitted",
-  ({
-    payload: {
-      review: {
-        submitted_at,
-        node_id,
-        user: { login },
+  ghWebhooks.on(
+    "pull_request_review.submitted",
+    ({
+      payload: {
+        review: {
+          submitted_at,
+          node_id,
+          user: { login },
+        },
       },
-    },
-  }) => {
-    if (!submitted_at) return;
+    }) => {
+      if (!submitted_at) return;
 
-    console.log("=>", node_id);
+      console.log("=>", node_id);
 
-    const storeData = store.get();
-    const newData = [...storeData];
+      const storeData = store.get();
+      const newData = [...storeData];
 
-    newData.push({
-      submittedAt: submitted_at,
-      id: node_id,
-      login,
-    });
+      newData.push({
+        submittedAt: submitted_at,
+        id: node_id,
+        login,
+      });
 
-    store.set(newData);
-  }
-);
+      store.set(newData);
+    }
+  );
 
-webhooks.use(createNodeMiddleware(ghWebhooks));
+  webhooks.use(createNodeMiddleware(ghWebhooks));
+}
 
 export default webhooks;

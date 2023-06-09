@@ -11,7 +11,7 @@ const getFromEnvOrThrowFit = (key: string): string => {
 export const AUTH_TOKEN = getFromEnvOrThrowFit("AUTH_TOKEN");
 export const ORG = getFromEnvOrThrowFit("ORG");
 export const REPO = getFromEnvOrThrowFit("REPO");
-export const WEBHOOK_TOKEN = getFromEnvOrThrowFit("WEBHOOK_TOKEN");
+export const WEBHOOK_TOKEN = process.env.WEBHOOK_TOKEN;
 
 export const SERVER_DIR = __dirname;
 export const ROOT_DIR = path.resolve(SERVER_DIR, "../../");

@@ -7,7 +7,7 @@
     "devServer": "ts-node-dev src/server/index.ts",
     "server": "ts-node src/server/index.ts",
     "watch": "webpack --watch",
-    "build": "webpack --watch"
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",

@@ -1,10 +1,8 @@
 import clsx from "clsx";
-import { ReactElement, useEffect, useRef, useState } from "react";
-import "./BarChart.style";
-import type { CSSProperties } from "react";
 import type { ReactNode } from "react";
-import { useMemo } from "react";
-import { mapToMap, mapToObject, typedValues } from "../utils.client";
+import { ReactElement, useEffect, useMemo, useState } from "react";
+import { mapToMap } from "../utils.client";
+import "./BarChart.style";
 
 export type BarChartData<K = string, V = number> = { key: K; value: V };
 
@@ -58,17 +56,44 @@ const BarChart = <K, V>({
 
   const valueMap = useMemo(
     () =>
-      mapToMap(data, (data) => [
-        data.key,
-        {
-          ...data,
-          strKey: getKey(data),
-          numValue: getValue(data),
-          tick: renderTick(data),
-          label: renderLabel(data),
-        },
-      ]),
+      Object.freeze(
+        mapToMap(data, (data) => [
+          data.key,
+          {
+            ...data,
+            strKey: getKey(data),
+            numValue: getValue(data),
+            tick: renderTick(data),
+            label: renderLabel(data),
+          },
+        ])
+      ),
     [data]
+  );
+
+  const keys = useMemo(() => {
+    const arr = Array.from(valueMap.values());
+    arr.sort(({ strKey: a }, { strKey: b }) => {
+      a = a.toLowerCase();
+      b = b.toLowerCase();
+      return a === b ? 0 : a > b ? 1 : -1;
+    });
+    return Object.freeze(arr.map(({ key }) => key));
+  }, [valueMap]);
+
+  const rankMap = useMemo(
+    () =>
+      Object.freeze(
+        mapToMap(
+          [...keys].sort(
+            (a, b) =>
+              (valueMap.get(b)?.numValue || 0) -
+              (valueMap.get(a)?.numValue || 0)
+          ),
+          (key, i) => [key, i]
+        )
+      ),
+    [keys, valueMap]
   );
 
   const maxValue = useMemo(
@@ -90,9 +115,10 @@ const BarChart = <K, V>({
   return (
     <div className={clsx("BarChart", className)}>
       <div className="BarChart__ticks" style={{ width: tickWidth }}>
-        {data.map(({ key }, i) => {
+        {keys.map((key) => {
           const d = valueMap.get(key);
-          if (!d) return;
+          const i = rankMap.get(key);
+          if (!d || typeof i !== "number") return;
           const { tick, strKey } = d;
 
           return (
@@ -110,9 +136,10 @@ const BarChart = <K, V>({
         })}
       </div>
       <div className="BarChart__bars">
-        {data.map(({ key }, i) => {
+        {keys.map((key) => {
           const d = valueMap.get(key);
-          if (!d) return;
+          const i = rankMap.get(key);
+          if (!d || typeof i !== "number") return;
           const { label, numValue, strKey } = d;
 
           return (
@@ -136,5 +163,7 @@ const BarChart = <K, V>({
     </div>
   );
 };
+
+BarChart.displayName = "BarChart";
 
 export default BarChart;

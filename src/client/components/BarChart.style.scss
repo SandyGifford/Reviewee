@@ -1,4 +1,5 @@
 $BarChart__bar__borderRadius: 8px;
+$BarChart__bar__moveTime: 500ms;
 
 .BarChart {
   display: flex;
@@ -13,6 +14,7 @@ $BarChart__bar__borderRadius: 8px;
     flex: 0 0 auto;
 
     &__tick {
+      transition: top $BarChart__bar__moveTime;
       position: absolute;
       display: flex;
       align-items: center;
@@ -26,6 +28,7 @@ $BarChart__bar__borderRadius: 8px;
     flex: 1 1 auto;
 
     &__barWrapper {
+      transition: top $BarChart__bar__moveTime;
       position: absolute;
       top: 0;
       left: 0;
@@ -34,6 +37,7 @@ $BarChart__bar__borderRadius: 8px;
       background-color: #556;
 
       &__bar {
+        transition: width 500ms;
         background: #778;
         position: absolute;
         height: 100%;

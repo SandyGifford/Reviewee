@@ -1,10 +1,10 @@
-import { FC, useMemo } from "react";
 import clsx from "clsx";
-import "./App.style";
+import { FC, useMemo } from "react";
 import { usePromise } from "../hooks";
 import type { ReviewsByResponse } from "../types.client";
+import { typedEntries } from "../utils.client";
+import "./App.style";
 import BarChart, { BarChartData } from "./BarChart";
-import { mapObject, typedEntries } from "../utils.client";
 
 export type AppProps = {
   className?: string;
@@ -37,5 +37,7 @@ const App: FC<AppProps> = ({ className }) => {
     </div>
   );
 };
+
+App.displayName = "App";
 
 export default App;

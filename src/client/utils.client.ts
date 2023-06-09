@@ -43,7 +43,7 @@ export const mapToObject = <T, K extends string, V>(
  */
 export const mapToMap = <T, K, V>(
   arr: readonly T[],
-  cb: (item: T) => [K, V]
+  cb: (item: T, i: number) => [K, V]
 ): Map<K, V> => new Map(arr.map(cb));
 
 /**

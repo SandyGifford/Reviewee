@@ -3,5 +3,3 @@ export const filterFalsy = <T>(items?: T[]) =>
     T,
     null | undefined | false | 0 | ""
   >[];
-
-export const gql = String.raw;

@@ -1,0 +1,23 @@
+{
+  "bem-comp": {
+    "prefix": "bem-comp",
+    "body": [
+      "import { FC } from \"react\";",
+      "import clsx from \"clsx\";",
+      "import \"./$1.style\";",
+      "",
+      "export interface $1Props {",
+      "\tclassName?: string;",
+      "}",
+      "",
+      "const ${1:$TM_FILENAME_BASE}: FC<$1Props> = ({ className }) => {",
+      "\treturn <div className={clsx(\"$1\", className)}></div>;",
+      "};",
+      "",
+      "export default $1;",
+      "",
+      ""
+    ],
+    "description": ""
+  }
+}

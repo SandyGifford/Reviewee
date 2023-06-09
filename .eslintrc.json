@@ -15,6 +15,7 @@
   },
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
+    "react/react-in-jsx-scope": "off",
     "@typescript-eslint/consistent-type-imports": "error",
     "indent": ["error", "tab"],
     "linebreak-style": ["error", "unix"],

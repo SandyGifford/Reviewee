@@ -6,7 +6,7 @@
       "import clsx from \"clsx\";",
       "import \"./$1.style\";",
       "",
-      "export interface $1Props {",
+      "export type $1Props = {",
       "\tclassName?: string;",
       "}",
       "",

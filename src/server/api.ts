@@ -4,6 +4,8 @@ import { gql } from "./utils.server";
 import { ORG, REPO } from "./consts.server";
 import { addMilliseconds } from "date-fns";
 import { MS_PER_MINUTE } from "../client/consts.client";
+import type { ReviewsByResponse } from "../client/types.client";
+import { assertChain } from "../client/utils.client";
 
 const api = express();
 
@@ -37,7 +39,7 @@ const makeCachedGet = <T>(
 	});
 };
 
-makeCachedGet("/reviewsBy", async () => {
+makeCachedGet<ReviewsByResponse[]>("/reviewsBy", async () => {
 	const gqlResponse = await gqlRequest(
 		gql`
       query lastIssues($ORG: String!, $REPO: String!, $PR_COUNT: Int) {
@@ -48,6 +50,7 @@ makeCachedGet("/reviewsBy", async () => {
                 reviews(last: 100) {
                   edges {
                     node {
+											id
                       createdAt
                       author {
                         ... on Actor {
@@ -70,12 +73,23 @@ makeCachedGet("/reviewsBy", async () => {
 		},
 	);
 
-	return gqlResponse.repository?.pullRequests?.edges?.flatMap((prEdge) =>
-		prEdge.node?.reviews?.edges?.flatMap(({ node: reviewNode }) => ({
-			created: reviewNode?.createdAt,
-			login: reviewNode?.author?.login,
-		})),
-	);
+	const prEdges = assertChain(gqlResponse?.repository?.pullRequests?.edges, () => new Error("Could not find PR edges in response"));
+
+	return prEdges.flatMap((prEdge) => {
+		const reviewEdges = assertChain(prEdge?.node?.reviews?.edges, () => new Error("Could not find review edges in response"));
+
+		return reviewEdges.flatMap(({ node: reviewNode }) => {
+			const createdAt = assertChain(reviewNode?.createdAt, ()=> new Error("Could not find 'createdAt' in review"));
+			const login = assertChain(reviewNode?.author?.login, ()=> new Error("Could not find 'login' in review"));
+			const id = assertChain(reviewNode?.id, ()=> new Error("Could not find 'id' in review"));
+
+			return {
+				createdAt,
+				login,
+				id,
+			};
+		});
+	});
 });
 
 export default api;

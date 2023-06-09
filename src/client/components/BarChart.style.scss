@@ -1,0 +1,53 @@
+$BarChart__bar__borderRadius: 8px;
+
+.BarChart {
+  display: flex;
+  gap: 8px;
+
+  &__ticks,
+  &__bars {
+    position: relative;
+  }
+
+  &__ticks {
+    flex: 0 0 auto;
+
+    &__tick {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      text-align: right;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  &__bars {
+    flex: 1 1 auto;
+
+    &__barWrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      border-radius: $BarChart__bar__borderRadius;
+      background-color: #556;
+
+      &__bar {
+        background: #778;
+        position: absolute;
+        height: 100%;
+        border-radius: $BarChart__bar__borderRadius;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        box-sizing: border-box;
+        padding-right: 8px;
+
+        &__label {
+          color: white;
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,4 @@
 import app from "./app";
+import { PORT } from "./consts.server";
 
-app.listen(3000) as unknown;
+app.listen(PORT);

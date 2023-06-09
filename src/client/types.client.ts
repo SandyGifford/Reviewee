@@ -1,5 +1,5 @@
-export type  ReviewsByResponse = {
-	createdAt: string;
-	login: string;
-	id: string;
+export type ReviewsByResponse = {
+  submittedAt: string;
+  login: string;
+  id: string;
 };

@@ -2,7 +2,7 @@ export type GQLConnection<
   K extends string,
   T,
   EK extends string,
-  E extends GQLEdge<EK, T>,
+  E extends GQLEdge<EK, T>
 > = GQLObj<K> & {
   edges?: E[];
   nodes?: T[];
@@ -40,7 +40,12 @@ export type Issue = GQLObjWithId<"Issue"> & {
 };
 
 export type IssueEdge = GQLEdge<"IssueEdge", Issue>;
-export type IssueConnection = GQLConnection<"IssueConnection", Issue, "IssueEdge", IssueEdge>;
+export type IssueConnection = GQLConnection<
+  "IssueConnection",
+  Issue,
+  "IssueEdge",
+  IssueEdge
+>;
 
 export type PullRequest = GQLObjWithId<"PullRequest"> & {
   title?: string;
@@ -49,17 +54,25 @@ export type PullRequest = GQLObjWithId<"PullRequest"> & {
 
 export type PullRequestEdge = GQLEdge<"PullRequestEdge", PullRequest>;
 export type PullRequestConnection = GQLConnection<
-  "PullRequestConnection", PullRequest, "PullRequestEdge",
+  "PullRequestConnection",
+  PullRequest,
+  "PullRequestEdge",
   PullRequestEdge
 >;
 
 export type Review = GQLObjWithId<"Review"> & {
   author?: Actor;
   createdAt?: string;
+  submittedAt?: string;
 };
 
 export type ReviewEdge = GQLEdge<"ReviewEdge", Review>;
-export type ReviewConnection = GQLConnection<"ReviewConnection", Review, "ReviewEdge", ReviewEdge>;
+export type ReviewConnection = GQLConnection<
+  "ReviewConnection",
+  Review,
+  "ReviewEdge",
+  ReviewEdge
+>;
 
 export type Actor = User;
 

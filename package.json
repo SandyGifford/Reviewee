@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev src/server/index.ts"
+    "devServer": "ts-node-dev src/server/index.ts",
+    "watch": "webpack --watch"
   },
   "author": "",
   "license": "ISC",

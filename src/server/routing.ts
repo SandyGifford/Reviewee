@@ -1,5 +1,5 @@
 import express from "express";
-import { DIST_DIR } from "./consts";
+import { DIST_DIR } from "./consts.server";
 
 const routing = express();
 

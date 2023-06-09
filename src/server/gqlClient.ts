@@ -1,5 +1,5 @@
-import { AUTH_TOKEN } from "./consts";
-import type { GQLQuery } from "./types";
+import { AUTH_TOKEN } from "./consts.server";
+import type { GQLQuery } from "./types.server";
 import { graphql } from "@octokit/graphql";
 
 const gqlClient = graphql.defaults({

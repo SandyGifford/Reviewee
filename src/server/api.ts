@@ -1,9 +1,9 @@
 import express from "express";
 import { gqlRequest } from "./gqlClient";
-import { gql } from "./utils";
-import { ORG, REPO } from "./consts";
+import { gql } from "./utils.server";
+import { ORG, REPO } from "./consts.server";
 import { addMilliseconds } from "date-fns";
-import { MS_PER_MINUTE } from "../client/consts";
+import { MS_PER_MINUTE } from "../client/consts.client";
 
 const api = express();
 

@@ -17,4 +17,5 @@ export const SERVER_DIR = __dirname;
 export const ROOT_DIR = path.resolve(SERVER_DIR, "../../");
 export const DIST_DIR = path.resolve(ROOT_DIR, "dist");
 
-export const PORT = process.env.PORT || 3000;
+export const PORT = Number(process.env.PORT || "3000");
+export const WS_PORT = Number(process.env.WS_PORT || "3001");

@@ -23,8 +23,6 @@ if (WEBHOOK_TOKEN) {
     }) => {
       if (!submitted_at) return;
 
-      console.log("=>", node_id);
-
       const storeData = store.get();
       const newData = [...storeData];
 

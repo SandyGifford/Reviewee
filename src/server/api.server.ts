@@ -4,7 +4,7 @@ import { MS_PER_MINUTE } from "../client/consts.client";
 import type { ReviewsByResponse } from "../client/types.client";
 import { assertChain } from "../client/utils.client";
 import { ORG, REPO } from "./consts.server";
-import { gqlRequest } from "./gqlClient";
+import { gqlQuery } from "./gqlClient";
 import { gql } from "./utils.server";
 import { store } from "./store";
 
@@ -45,7 +45,7 @@ const makeCachedGet = <T>(
 makeCachedGet<ReviewsByResponse[]>(
   "/reviewsBy",
   async () => {
-    const gqlResponse = await gqlRequest(
+    const gqlResponse = await gqlQuery(
       gql`
         query lastIssues($ORG: String!, $REPO: String!, $PR_COUNT: Int) {
           repository(owner: $ORG, name: $REPO) {

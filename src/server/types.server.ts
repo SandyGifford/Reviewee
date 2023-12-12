@@ -4,36 +4,47 @@ export type GQLConnection<
   EK extends string,
   E extends GQLEdge<EK, T>
 > = GQLObj<K> & {
-  edges?: E[];
-  nodes?: T[];
-  totalCount?: number;
-  pageInfo?: GQLPageInfo;
+  readonly edges?: E[];
+  readonly nodes?: T[];
+  readonly totalCount?: number;
+  readonly pageInfo?: GQLPageInfo;
 };
 
 export type GQLPageInfo = GQLObj<"PageInfo"> & {
-  endCursor?: string;
-  hasNextPage?: boolean;
-  hasPreviousPage?: boolean;
-  startCursor?: string;
+  readonly endCursor?: string;
+  readonly hasNextPage?: boolean;
+  readonly hasPreviousPage?: boolean;
+  readonly startCursor?: string;
 };
 
 export type GQLEdge<K extends string, T> = GQLObj<K> & {
-  node?: T;
-  cursor?: string;
+  readonly node?: T;
+  readonly cursor?: string;
 };
 
 export type GQLObj<K extends string> = {
-  __typename?: K;
+  readonly __typename?: K;
 };
 
 export type GQLObjWithId<K extends string> = {
-  __typename?: K;
-  id?: string;
+  readonly __typename?: K;
+  readonly id?: string;
 };
 
 export type GQLQuery = GQLObj<"Query"> & {
-  repository?: Repository;
+  readonly repository?: Repository;
 };
+
+export type GQLMutation = GQLObj<"Mutation"> & {
+  readonly addPullRequestReview?: AddPullRequestReviewPayload;
+};
+
+export type AddPullRequestReviewPayload =
+  GQLObj<"AddPullRequestReviewPayload"> & {
+    readonly clientMutationId?: string;
+    readonly pullRequestReview?: PullRequestReview;
+    readonly reviewEdge?: PullRequestReviewEdge;
+  };
 
 export type Issue = GQLObjWithId<"Issue"> & {
   title: string;
@@ -47,9 +58,25 @@ export type IssueConnection = GQLConnection<
   IssueEdge
 >;
 
+export type PullRequestReview = GQLObjWithId<"PullRequestReview"> & {
+  readonly author?: Actor;
+};
+
+export type PullRequestReviewEdge = GQLEdge<
+  "PullRequestReviewEdge",
+  PullRequestReview
+>;
+export type PullRequestReviewConnection = GQLConnection<
+  "PullRequestReviewConnection",
+  PullRequestReview,
+  "PullRequestReviewEdge",
+  PullRequestReviewEdge
+>;
+
 export type PullRequest = GQLObjWithId<"PullRequest"> & {
-  title?: string;
-  reviews?: ReviewConnection;
+  readonly title?: string;
+  readonly reviews?: ReviewConnection;
+  readonly files?: PullRequestChangedFileConnection;
 };
 
 export type PullRequestEdge = GQLEdge<"PullRequestEdge", PullRequest>;
@@ -60,10 +87,45 @@ export type PullRequestConnection = GQLConnection<
   PullRequestEdge
 >;
 
+export type PullRequestChangedFile = GQLObjWithId<"PullRequestChangedFile"> & {
+  readonly path?: string;
+};
+
+export type PullRequestChangedFileEdge = GQLEdge<
+  "PullRequestChangedFileEdge",
+  PullRequestChangedFile
+>;
+export type PullRequestChangedFileConnection = GQLConnection<
+  "PullRequestChangedFileConnection",
+  PullRequestChangedFile,
+  "PullRequestChangedFileEdge",
+  PullRequestChangedFileEdge
+>;
+
+export type IssueComment = GQLObjWithId<"IssueComment"> & {
+  readonly author?: Actor;
+  readonly body?: string;
+  readonly bodyHTML?: string;
+  readonly bodyText?: string;
+  readonly path?: string;
+  readonly startLine?: number | null;
+  readonly line?: number | null;
+  readonly outdated?: boolean;
+};
+
+export type IssueCommentEdge = GQLEdge<"IssueCommentEdge", IssueComment>;
+export type IssueCommentConnection = GQLConnection<
+  "IssueCommentConnection",
+  IssueComment,
+  "IssueCommentEdge",
+  IssueCommentEdge
+>;
+
 export type Review = GQLObjWithId<"Review"> & {
-  author?: Actor;
-  createdAt?: string;
-  submittedAt?: string;
+  readonly author?: Actor;
+  readonly createdAt?: string;
+  readonly submittedAt?: string;
+  readonly comments?: IssueCommentConnection;
 };
 
 export type ReviewEdge = GQLEdge<"ReviewEdge", Review>;
@@ -77,10 +139,14 @@ export type ReviewConnection = GQLConnection<
 export type Actor = User;
 
 export type User = GQLObjWithId<"User"> & {
-  login?: string;
+  readonly login?: string;
+  readonly avatarUrl?: string;
+  readonly resourcePath?: string;
+  readonly url?: string;
 };
 
 export type Repository = GQLObjWithId<"Repository"> & {
-  issues?: IssueConnection;
-  pullRequests?: PullRequestConnection;
+  readonly issues?: IssueConnection;
+  readonly pullRequests?: PullRequestConnection;
+  readonly pullRequest?: PullRequest;
 };
